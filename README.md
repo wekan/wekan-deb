@@ -31,13 +31,15 @@ Do not add this repository for Debian Stretch 9
 # (root)
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
 echo "deb https://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.2 main" > /etc/apt/sources.list.d/mongodb-org-3.2.list
+apt-get update
 ```
 
 ## 3. Install Wekan
 
 ```shell
 # (root)
-gdebi wekan-oft-xxx_amd64.deb
+wget https://github.com/soohwa/wekan-deb/releases/download/v1.84/wekan-oft-0_1.84.0-1_amd64.deb
+gdebi wekan-oft-0_1.84.0-1_amd64.deb
 ```
 
 ## 4. Configuration
