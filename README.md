@@ -46,7 +46,7 @@ gdebi wekan-oft-0_1.84.0-1_amd64.deb
 
 Default values are in `/etc/default/wekan-oft-0`
 
-Please, modifiy the default values in `/etc/wekan-oft-0`
+Please, modifiy the default values in `/etc/wekan/wekan-oft-0`
 
 ```shell
 export MONGO_URL='mongodb://127.0.0.1:27017/wekan'
