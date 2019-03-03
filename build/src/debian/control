@@ -1,0 +1,15 @@
+Source: wekan-oft-0
+Maintainer: Soohwa <none@none.none>
+Section: web
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9), libfontconfig1-dev, fuse
+Homepage: https://wekan.io
+
+Package: wekan-oft-0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, fuse, mongodb (>= 3.2) | mongodb-org (>= 3.2)
+Conflicts: mongodb-org (>= 3.4)
+Description: Wekan Only For Testing
+ Wekan is an open-source and collaborative kanban board application.
+ This package includes the nodejs runtime.

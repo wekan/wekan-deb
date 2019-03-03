@@ -1,0 +1,33 @@
+# Mandatory variables
+#
+# export MONGO_URL='mongodb://127.0.0.1:27017/wekan'
+# export ROOT_URL='http://127.0.0.1:3000'
+# export MAIL_FROM='wekan-admin@localhost'
+# export PORT=3000
+
+# NodeJS have a hard-coded certificate list.
+#
+# This is a problem for outgoing webhooks to a site using for example let'sencrypt
+# 1. Download the X3 certificate :
+#    cd /etc/ssl/certs
+#    wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt -O lets-encrypt-x3-cross-signed.pem
+# 2. Uncomment the following line
+#    export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/lets-encrypt-x3-cross-signed.pem
+
+# To increase max usage memory :
+#
+# https://forums.meteor.com/t/how-to-increase-decrease-node-js-memory-limits-using-meteor/34355/6
+# https://github.com/nodejs/node/issues/7937
+#
+# Linux/OSX:
+# export NODE_OPTIONS="--max_old_space_size=4096 --some_other_option"
+#
+# Windows:
+# set NODE_OPTIONS=--max_old_space_size=4096 --some_other_option
+#
+# Mac:
+# export TOOL_NODE_FLAGS="--max_old_space_size=4096"
+
+# Backup directory
+#
+# export BACKUP_DIR=

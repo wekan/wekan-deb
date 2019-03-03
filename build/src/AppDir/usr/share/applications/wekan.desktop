@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=WekanServer
+Exec=wekan
+Icon=wekan
+Type=Application
+Categories=Utility;
+Comment=Wekan is an open-source and collaborative kanban board application.
+Name[en]=Wekan
+Terminal=true
+StartupNotify=false
+NoDisplay=true

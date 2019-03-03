@@ -1,0 +1,7 @@
+/var/log/wekan/wekan-oft-0.log {
+    copytruncate
+    missingok
+    rotate 7
+    compress
+    daily
+}

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -f /opt/build/src/AppDir/usr/bin/node 2>/dev/null
+rm -fR /opt/build/src/AppDir/usr/share/wekan

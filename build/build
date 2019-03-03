@@ -1,0 +1,54 @@
+#!/bin/bash
+
+cd /opt/build/src
+if [ ! -f wekan-${WEKAN_RELEASE}.tar.gz ] ; then
+    curl https://releases.wekan.team/wekan-${WEKAN_RELEASE}.tar.gz -o wekan-${WEKAN_RELEASE}.tar.gz
+fi
+
+export WEKAN_DIR=$(pwd)
+
+rm -fR $WEKAN_DIR/bundle 2>/dev/null
+tar xzf wekan-$WEKAN_RELEASE.tar.gz || exit 1
+
+find $WEKAN_DIR/bundle/programs/server/node_modules/fibers/bin -name fibers.node | grep -v linux-x64 | while read f
+do
+    rm -f $f
+done
+
+cd $WEKAN_DIR/bundle/programs/server/ && meteor npm install --save bcrypt
+cd $WEKAN_DIR
+
+rm -f $WEKAN_DIR/bundle/programs/server/npm/node_modules/meteor/rajit_bootstrap3-datepicker/lib/bootstrap-datepicker/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs
+
+cp -vf /opt/node-v${NODE_RELEASE}-linux-x64/bin/node AppDir/usr/bin/
+strip -s AppDir/usr/bin/node
+
+rm -fR AppDir/usr/share/wekan 2>/dev/null
+mv $WEKAN_DIR/bundle AppDir/usr/share/wekan
+
+ARCH=x86_64 /opt/appimagetool-x86_64.AppImage /opt/build/src/AppDir/ && echo "AppImage OK" || exit 1
+
+cd $WEKAN_DIR/debian/
+
+:> changelog
+
+echo "wekan-oft-0 (${WEKAN_RELEASE}.0-1) UNRELEASED; urgency=low" >> changelog
+echo "" >> changelog
+echo "  * New upstream release ${WEKAN_RELEASE}" >> changelog
+echo "" >> changelog
+echo " --  Soohwa <none@none.none>  $(date -R)" >> changelog
+echo "" >> changelog
+
+cd $WEKAN_DIR &&
+dpkg-buildpackage -b -rfakeroot -us -uc &&
+echo "OK" || echo "ERROR"
+
+DEBFILE=$(cat $WEKAN_DIR/debian/files | awk '{ print $1 }')
+
+dpkg-buildpackage -T clean
+
+cd $WEKAN_DIR/..
+sha256sum $DEBFILE > SHA256SUMS.txt
+echo ""
+echo "New file build/$DEBFILE created."
+echo ""
