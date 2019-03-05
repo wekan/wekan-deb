@@ -30,9 +30,9 @@ Provides : Wekan (OFT Packages)
 
 ## 3. Release number configuration
 
-* Nodejs: `NODE_RELEASE` in `Dockerfile`
-* AppImage: `APPIMAGE_RELEASE` in `Dockerfile`
-* Wekan: `wekan-release` in `Makefile`
+* Nodejs: `NODE_RELEASE` in `Dockerfile` (do `make image` after the change)
+* AppImage: `APPIMAGE_RELEASE` in `Dockerfile` (do `make image` after the change)
+* Wekan: `wekan-release` in `Makefile` (do `make deb` after the change)
 
 ## 4. Notes
 
@@ -70,8 +70,9 @@ apt-get update
 
 ```shell
 # (root)
-wget https://github.com/soohwa/wekan-deb/releases/download/v1.84/wekan-oft-0_1.84.0-1_amd64.deb
-gdebi wekan-oft-0_1.84.0-1_amd64.deb
+export WEKAN_RELEASE=2.37
+wget https://github.com/soohwa/wekan-deb/releases/download/v${WEKAN_RELEASE}/wekan-oft-0_${WEKAN_RELEASE}.0-1_amd64.deb
+gdebi wekan-oft-0_${WEKAN_RELEASE}.0-1_amd64.deb
 ```
 
 ## 4. Configuration

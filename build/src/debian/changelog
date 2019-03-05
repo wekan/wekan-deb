@@ -1,6 +1,7 @@
-wekan-oft-0 (2.35.0-1) UNRELEASED; urgency=low
+wekan-oft-0 (2.37.0-1) UNRELEASED; urgency=low
 
-  * New upstream release 2.35
+  * Wekan 2.37
+  * Nodejs 8.15.1
 
- --  Soohwa <none@none.none>  Sun, 03 Mar 2019 09:48:54 +0000
+ --  Soohwa <none@none.none>  Tue, 05 Mar 2019 01:49:24 +0000
 

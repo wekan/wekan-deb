@@ -5,6 +5,11 @@ if [ ! -f wekan-${WEKAN_RELEASE}.tar.gz ] ; then
     curl https://releases.wekan.team/wekan-${WEKAN_RELEASE}.tar.gz -o wekan-${WEKAN_RELEASE}.tar.gz
 fi
 
+if [ ! -f wekan-${WEKAN_RELEASE}.tar.gz ] ; then
+    echo "wekan-${WEKAN_RELEASE}.tar.gz does not exists: aborting"
+    exit 1
+fi
+
 export WEKAN_DIR=$(pwd)
 
 rm -fR $WEKAN_DIR/bundle 2>/dev/null
@@ -34,7 +39,8 @@ cd $WEKAN_DIR/debian/
 
 echo "wekan-oft-0 (${WEKAN_RELEASE}.0-1) UNRELEASED; urgency=low" >> changelog
 echo "" >> changelog
-echo "  * New upstream release ${WEKAN_RELEASE}" >> changelog
+echo "  * Wekan ${WEKAN_RELEASE}" >> changelog
+echo "  * Nodejs ${NODE_RELEASE}" >> changelog
 echo "" >> changelog
 echo " --  Soohwa <none@none.none>  $(date -R)" >> changelog
 echo "" >> changelog

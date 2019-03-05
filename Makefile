@@ -1,4 +1,4 @@
-wekan-release := 2.35
+wekan-release := 2.37
 
 cur-dir       := $(shell pwd)
 
