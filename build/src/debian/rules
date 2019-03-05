@@ -1,8 +1,12 @@
 #!/usr/bin/make -f
 DH_VERBOSE = 1
 %:
-	dh $@
+	dh $@ --without systemd
 
-.PHONY: override_dh_strip
+.PHONY: override_dh_strip override_dh_installinit
+
+override_dh_installinit:
+	echo "Do not manage init script"
+
 override_dh_strip:
 	echo "Do not strip"

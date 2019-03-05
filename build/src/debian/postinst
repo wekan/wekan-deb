@@ -48,8 +48,10 @@ case "$1" in
 esac
 
 if [ -x "/etc/init.d/wekan-oft-0" ]; then
-        update-rc.d wekan-oft-0 defaults >/dev/null
-        invoke-rc.d wekan-oft-0 start || exit $?
+    /etc/init.d/wekan-oft-0 stop
+    update-rc.d -f wekan-oft-0 remove
+    update-rc.d wekan-oft-0 defaults
+    /etc/init.d/wekan-oft-0 start
 fi
 
 exit 0

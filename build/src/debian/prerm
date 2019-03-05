@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ -x "/etc/init.d/wekan-oft-0" ]; then
+    MATCH=$(grep pkill /etc/init.d/wekan-oft-0)
+    if [ "$MATCH" != "" ]; then
+        sed -i s/pkill/\#pkill/g /etc/init.d/wekan-oft-0
+    fi
+fi
+
+exit 0
