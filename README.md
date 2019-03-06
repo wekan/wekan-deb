@@ -70,7 +70,7 @@ apt-get update
 
 ```shell
 # (root)
-export WEKAN_RELEASE=2.37
+export WEKAN_RELEASE=2.38
 wget https://github.com/soohwa/wekan-deb/releases/download/v${WEKAN_RELEASE}/wekan-oft-0_${WEKAN_RELEASE}.0-1_amd64.deb
 gdebi wekan-oft-0_${WEKAN_RELEASE}.0-1_amd64.deb
 ```
