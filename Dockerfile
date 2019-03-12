@@ -10,9 +10,5 @@ RUN curl https://nodejs.org/dist/latest-v8.x/node-v$NODE_RELEASE-linux-x64.tar.g
     tar xzf node-v$NODE_RELEASE-linux-x64.tar.gz && \
     ln -sf /opt/node-v$NODE_RELEASE-linux-x64/bin/node /usr/ && \
     ln -sf /opt/node-v$NODE_RELEASE-linux-x64/bin/npm /usr/
-RUN curl https://install.meteor.com -o /opt/install_meteor.sh && chmod +x /opt/install_meteor.sh && \
-    sed -i 's/VERBOSITY="--silent"/VERBOSITY="--progress-bar"/' /opt/install_meteor.sh
-RUN echo "Starting meteor installation...   \n" && \
-    /opt/install_meteor.sh
 RUN mkdir /opt/build
 VOLUME ./build

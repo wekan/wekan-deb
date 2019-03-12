@@ -20,10 +20,9 @@ do
     rm -f $f
 done
 
-cd $WEKAN_DIR/bundle/programs/server/ && meteor npm install --save bcrypt
 cd $WEKAN_DIR
 
-rm -f $WEKAN_DIR/bundle/programs/server/npm/node_modules/meteor/rajit_bootstrap3-datepicker/lib/bootstrap-datepicker/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs
+find $WEKAN_DIR -name 'phantomjs' -type f -executable -print | xargs /bin/rm -f
 
 cp -vf /opt/node-v${NODE_RELEASE}-linux-x64/bin/node AppDir/usr/bin/
 strip -s AppDir/usr/bin/node

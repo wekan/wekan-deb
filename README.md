@@ -13,11 +13,6 @@ Provides : Wekan (OFT Packages)
 ## 1. Prerequisites
 
 * [Docker](https://docs.docker.com/install/) must be installed.
-* [AUFS storage driver](https://docs.docker.com/storage/storagedriver/aufs-driver/) must be selected because tar [fails](https://github.com/coreos/bugs/issues/1095) with [overlay2](https://github.com/deis/deis/issues/4867) storage driver.
-    * See the [storage driver](https://docs.docker.com/storage/storagedriver/select-storage-driver/) you are using with `docker info | grep Storage`.
-    * **!!! IMPORTANT: When you change the storage driver, any existing images and containers become inaccessible !!!**
-    * In `/etc/init.d/docker` just change `DOCKER_OPTS=` into `DOCKER_OPTS="--storage-driver aufs"`
-    * Restart the daemon with `/etc/init.d/docker restart`
 
 ## 2. Build the docker image
 
