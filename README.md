@@ -3,8 +3,9 @@ Debian Package for Wekan
 
 Supported operating systems :
 
-* [Debian Wheezy 7.x amd64](https://www.debian.org/)
-* [Devuan Jessie 1.x amd64](https://devuan.org/)
+* [Debian Wheezy 7 64 bit](https://www.debian.org/)
+* [Devuan Jessie 1 64 bit](https://devuan.org/)
+* [Devuan Ascii 2 64 bit](https://devuan.org/)
 
 Provides : Wekan (OFT Packages)
 
