@@ -17,17 +17,14 @@ Provides : Wekan (OFT Packages)
 ## 2. Build the docker image
 
 * Clone this repository: `git clone https://github.com/soohwa/wekan-deb.git && cd wekan-deb`
-* Build the image: `make image`
 * Build the debian package: `make deb`
 * Clean the build repository: `make clean`
-* You can do that in one command: `make image deb clean`
-* The wekan debian package is created inside the build folder.
+* The wekan debian package is created inside the `build` folder.
 
 ## 3. Release number configuration
 
 * Nodejs: `NODE_RELEASE` in `Dockerfile` (do `make image` after the change)
 * AppImage: `APPIMAGE_RELEASE` in `Dockerfile` (do `make image` after the change)
-* Wekan: `wekan-release` in `Makefile` (do `make deb` after the change)
 
 ## 4. Notes
 
