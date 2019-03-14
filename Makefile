@@ -1,15 +1,16 @@
-wekan-release := 2.44
-
 cur-dir       := $(shell pwd)
 
-image:
-	docker build . -t wekan-build
+bundle:
+	docker build -f Dockerfile-BuildBundle -t wekan-bundle .
+	docker run -it --rm --name wekan-bundle --volume=$(cur-dir)/dist:/opt/dist wekan-bundle cp -v /opt/wekan_build/wekan.html /opt/dist/
+	docker run -it --rm --name wekan-bundle --volume=$(cur-dir)/dist:/opt/dist wekan-bundle cp -v /opt/wekan_build/wekan.tar.gz /opt/dist/
+	docker run -it --rm --name wekan-bundle --volume=$(cur-dir)/dist:/opt/dist wekan-bundle cp -v /opt/wekan_build/WEKAN_RELEASE /opt/dist/
 
-image-force: clean
-	docker build . -t wekan-build --no-cache
+image: bundle
+	docker build -f Dockerfile-BuildPackage -t wekan-deb .
 
-deb: clean
-	docker run -it --rm --name wekan-build --privileged --device /dev/fuse --env WEKAN_RELEASE=$(wekan-release) --volume=$(cur-dir)/build:/opt/build wekan-build ./build/build
+deb: image clean
+	docker run -it --rm --name wekan-deb --privileged --device /dev/fuse --volume=$(cur-dir)/build:/opt/build --volume=$(cur-dir)/dist:/opt/dist wekan-deb ./build/build
 
 clean:
-	docker run -it --rm --name wekan-build --volume=$(cur-dir)/build:/opt/build wekan-build ./build/clean
+	docker run -it --rm --name wekan-deb --volume=$(cur-dir)/build:/opt/build wekan-deb ./build/clean

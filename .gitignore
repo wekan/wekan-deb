@@ -7,3 +7,4 @@ build/src/*.AppImage
 build/src/debian/.debhelper
 build/src/AppDir/usr/bin/node
 build/src/AppDir/usr/share/wekan/*
+dist/

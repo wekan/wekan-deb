@@ -1,0 +1,73 @@
+FROM ubuntu:cosmic
+
+ENV BUILD_DEPS="apt-utils bsdtar gnupg gosu wget curl bzip2 build-essential python python3 python3-distutils git ca-certificates gcc-7" \
+    DEBUG=false \
+    NODE_VERSION=v8.15.1 \
+    NPM_VERSION=latest \
+    FIBERS_VERSION=2.0.0 \
+    ARCHITECTURE=linux-x64 \
+    SRC_PATH=./ \
+    WITH_API=true
+
+RUN apt-get update -y && apt-get install -y --no-install-recommends ${BUILD_DEPS}
+
+# Meteor installer doesn't work with the default tar binary, so using bsdtar while installing.
+# https://github.com/coreos/bugs/issues/1095#issuecomment-350574389
+
+RUN cp $(which tar) $(which tar)~ && ln -sf $(which bsdtar) $(which tar)
+RUN wget https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-${ARCHITECTURE}.tar.gz
+RUN tar xvzf node-${NODE_VERSION}-${ARCHITECTURE}.tar.gz && \
+    rm node-${NODE_VERSION}-${ARCHITECTURE}.tar.gz && \
+    mv node-${NODE_VERSION}-${ARCHITECTURE} /opt/nodejs && \
+    ln -s /opt/nodejs/bin/node /usr/bin/node && \
+    ln -s /opt/nodejs/bin/npm /usr/bin/npm
+RUN npm install -g npm@${NPM_VERSION}
+RUN npm install -g node-gyp
+RUN npm install -g fibers@${FIBERS_VERSION}
+RUN curl "https://install.meteor.com" -o /opt/install_meteor.sh
+RUN sed -i 's/VERBOSITY="--silent"/VERBOSITY="--progress-bar"/' /opt/install_meteor.sh
+RUN echo "Starting meteor installation...   \n" && sh /opt/install_meteor.sh
+
+RUN mkdir /opt/wekan_build
+RUN cd /opt && git clone git://github.com/wekan/wekan.git && \
+    cd wekan && \
+    LATEST_TAG=$(git tag | tail -n 1) && \
+    git checkout tags/$LATEST_TAG && \
+    echo ${LATEST_TAG##v} > /opt/wekan_build/WEKAN_RELEASE
+
+RUN mkdir /opt/wekan/packages && \
+    cd /opt/wekan/packages && \
+    git clone --depth 1 -b master git://github.com/wekan/flow-router.git kadira-flow-router && \
+    git clone --depth 1 -b master git://github.com/meteor-useraccounts/core.git meteor-useraccounts-core && \
+    git clone --depth 1 -b master git://github.com/wekan/meteor-accounts-cas.git && \
+    git clone --depth 1 -b master git://github.com/wekan/wekan-ldap.git && \
+    git clone --depth 1 -b master git://github.com/wekan/wekan-scrollbar.git && \
+    git clone --depth 1 -b master git://github.com/wekan/meteor-accounts-oidc.git && \
+    mv meteor-accounts-oidc/packages/switch_accounts-oidc wekan_accounts-oidc && \
+    mv meteor-accounts-oidc/packages/switch_oidc wekan_oidc && \
+    rm -rf meteor-accounts-oidc
+RUN sed -i 's/api\.versionsFrom/\/\/api.versionsFrom/' /opt/wekan/packages/meteor-useraccounts-core/package.js
+RUN npm install -g api2html
+RUN mkdir /opt/python && \
+    cd /opt/python && \
+    git clone --depth 1 -b master git://github.com/Kronuz/esprima-python && \
+    cd /opt/python/esprima-python && \
+    python3 setup.py install --record files.txt && \
+    cd /opt/wekan && \
+    mkdir -p ./public/api && \
+    python3 ./openapi/generate_openapi.py --release $(git describe --tags --abbrev=0) > ./public/api/wekan.yml && \
+    /opt/nodejs/bin/api2html -c ./public/wekan-logo-header.png -o ./public/api/wekan.html ./public/api/wekan.yml && \
+    cp /opt/wekan/public/api/wekan.html /opt/wekan_build/ 
+ENV METEOR_ALLOW_SUPERUSER=true
+RUN cd /opt/wekan && \
+    /root/.meteor/meteor add standard-minifier-js && \
+    /root/.meteor/meteor npm install && \
+    /root/.meteor/meteor build --directory /opt/wekan_build && \
+    cp /opt/wekan/fix-download-unicode/cfs_access-point.txt /opt/wekan_build/bundle/programs/server/packages/cfs_access-point.js && \
+    cd /opt/wekan_build/bundle/programs/server/ && \
+    npm install
+RUN ls -lah /opt/wekan_build ; du -sh /opt/wekan_build ; \
+    find /opt/wekan_build/bundle/programs/server/node_modules/fibers/bin -name fibers.node | grep -v linux-x64 | while read f ; do rm -vf $f ; done
+RUN find /opt/wekan_build/ -name 'phantomjs' -type f -executable -print | xargs /bin/rm -vf
+RUN cd /opt/wekan_build && \
+    tar czf wekan.tar.gz bundle/
