@@ -1,7 +1,7 @@
-wekan-oft-0 (2.47.0-1) UNRELEASED; urgency=low
+wekan-oft-0 (2.53.0-1) UNRELEASED; urgency=low
 
-  * Wekan 2.47
+  * Wekan 2.53
   * Nodejs 8.15.1
 
- --  Soohwa <none@none.none>  Thu, 14 Mar 2019 03:14:52 +0000
+ --  Soohwa <none@none.none>  Mon, 25 Mar 2019 01:00:50 +0000
 
