@@ -47,17 +47,17 @@ RUN mkdir /opt/wekan/packages && \
     mv meteor-accounts-oidc/packages/switch_oidc wekan_oidc && \
     rm -rf meteor-accounts-oidc
 RUN sed -i 's/api\.versionsFrom/\/\/api.versionsFrom/' /opt/wekan/packages/meteor-useraccounts-core/package.js
-RUN npm install -g api2html
-RUN mkdir /opt/python && \
-    cd /opt/python && \
-    git clone --depth 1 -b master git://github.com/Kronuz/esprima-python && \
-    cd /opt/python/esprima-python && \
-    python3 setup.py install --record files.txt && \
-    cd /opt/wekan && \
-    mkdir -p ./public/api && \
-    python3 ./openapi/generate_openapi.py --release $(git describe --tags --abbrev=0) > ./public/api/wekan.yml && \
-    /opt/nodejs/bin/api2html -c ./public/wekan-logo-header.png -o ./public/api/wekan.html ./public/api/wekan.yml && \
-    cp /opt/wekan/public/api/wekan.html /opt/wekan_build/ 
+# RUN npm install -g api2html
+# RUN mkdir /opt/python && \
+#     cd /opt/python && \
+#     git clone --depth 1 -b master git://github.com/Kronuz/esprima-python && \
+#     cd /opt/python/esprima-python && \
+#     python3 setup.py install --record files.txt && \
+#     cd /opt/wekan && \
+#     mkdir -p ./public/api && \
+#     python3 ./openapi/generate_openapi.py --release $(git describe --tags --abbrev=0) > ./public/api/wekan.yml && \
+#     /opt/nodejs/bin/api2html -c ./public/wekan-logo-header.png -o ./public/api/wekan.html ./public/api/wekan.yml && \
+#     cp /opt/wekan/public/api/wekan.html /opt/wekan_build/
 ENV METEOR_ALLOW_SUPERUSER=true
 RUN cd /opt/wekan && \
     /root/.meteor/meteor add standard-minifier-js && \
