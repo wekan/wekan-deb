@@ -50,6 +50,8 @@ esac
 if [ -x "/etc/init.d/wekan-oft-0" ]; then
     /etc/init.d/wekan-oft-0 stop
     update-rc.d -f wekan-oft-0 remove
+    cp -f /etc/wekan/init.d /etc/init.d/wekan-oft-0
+    chmod +x /etc/init.d/wekan-oft-0
     update-rc.d wekan-oft-0 defaults
     /etc/init.d/wekan-oft-0 start
 fi
