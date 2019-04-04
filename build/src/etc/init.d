@@ -1,8 +1,8 @@
 #! /bin/sh
 ### BEGIN INIT INFO
 # Provides:          wekan-oft-0
-# Required-Start:    $remote_fs $syslog mongodb
-# Required-Stop:     $remote_fs $syslog mongodb
+# Required-Start:    $remote_fs $syslog mongod
+# Required-Stop:     $remote_fs $syslog mongod
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Wekan Only For Testing
