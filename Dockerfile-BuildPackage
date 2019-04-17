@@ -1,6 +1,6 @@
 FROM debian:8
 
-ENV NODE_RELEASE     8.15.1
+ENV NODE_RELEASE     8.16.0
 ENV APPIMAGE_RELEASE 11
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install wget curl dpkg-dev debhelper libfontconfig1-dev fuse && apt-get clean

@@ -1,8 +1,8 @@
-FROM ubuntu:cosmic
+FROM ubuntu
 
 ENV BUILD_DEPS="apt-utils bsdtar gnupg gosu wget curl bzip2 build-essential python python3 python3-distutils git ca-certificates gcc-7" \
     DEBUG=false \
-    NODE_VERSION=v8.15.1 \
+    NODE_VERSION=v8.16.0 \
     NPM_VERSION=latest \
     FIBERS_VERSION=2.0.0 \
     ARCHITECTURE=linux-x64 \
@@ -35,7 +35,7 @@ RUN cd /opt && git clone git://github.com/wekan/wekan.git && \
     git checkout tags/$LATEST_TAG && \
     echo ${LATEST_TAG##v} > /opt/wekan_build/WEKAN_RELEASE
 
-RUN mkdir /opt/wekan/packages && \
+RUN rm -fR /opt/wekan/packages 2>/dev/null ; mkdir -p /opt/wekan/packages ; \
     cd /opt/wekan/packages && \
     git clone --depth 1 -b master git://github.com/wekan/flow-router.git kadira-flow-router && \
     git clone --depth 1 -b master git://github.com/meteor-useraccounts/core.git meteor-useraccounts-core && \
